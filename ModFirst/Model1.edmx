@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="VkladSet" EntityType="Model1.Store.VkladSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProgSet" EntityType="Model1.Store.ProgSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClientSet" EntityType="Model1.Store.ClientSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ProgVklad" Association="Model1.Store.ProgVklad">
+      <End Role="Prog" EntitySet="ProgSet" />
+      <End Role="Vklad" EntitySet="VkladSet" />
+    </AssociationSet>
+    <AssociationSet Name="ClientVklad" Association="Model1.Store.ClientVklad">
+      <End Role="Client" EntitySet="ClientSet" />
+      <End Role="Vklad" EntitySet="VkladSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="VkladSet">
+    <Key>
+      <PropertyRef Name="Vklad_id" />
+    </Key>
+    <Property Name="Vklad_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Balance" Type="int" Nullable="false" />
+    <Property Name="DateOpen" Type="datetime" Nullable="false" />
+    <Property Name="ProgProg_id" Type="int" Nullable="false" />
+    <Property Name="ClientClient_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProgSet">
+    <Key>
+      <PropertyRef Name="Prog_id" />
+    </Key>
+    <Property Name="Prog_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Percent" Type="int" Nullable="false" />
+    <Property Name="Prog_name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ClientSet">
+    <Key>
+      <PropertyRef Name="Client_id" />
+    </Key>
+    <Property Name="Client_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Passport" Type="int" Nullable="false" />
+    <Property Name="Phone" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ProgVklad">
+    <End Role="Prog" Type="Model1.Store.ProgSet" Multiplicity="1" />
+    <End Role="Vklad" Type="Model1.Store.VkladSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Prog">
+        <PropertyRef Name="Prog_id" />
+      </Principal>
+      <Dependent Role="Vklad">
+        <PropertyRef Name="ProgProg_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ClientVklad">
+    <End Role="Client" Type="Model1.Store.ClientSet" Multiplicity="1" />
+    <End Role="Vklad" Type="Model1.Store.VkladSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Client_id" />
+      </Principal>
+      <Dependent Role="Vklad">
+        <PropertyRef Name="ClientClient_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="VkladSet" EntityType="Model1.Vklad" />
+          <EntitySet Name="ProgSet" EntityType="Model1.Prog" />
+          <EntitySet Name="ClientSet" EntityType="Model1.Client" />
+          <AssociationSet Name="ProgVklad" Association="Model1.ProgVklad">
+            <End Role="Prog" EntitySet="ProgSet" />
+            <End Role="Vklad" EntitySet="VkladSet" />
+          </AssociationSet>
+          <AssociationSet Name="ClientVklad" Association="Model1.ClientVklad">
+            <End Role="Client" EntitySet="ClientSet" />
+            <End Role="Vklad" EntitySet="VkladSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Vklad">
+          <Key>
+            <PropertyRef Name="Vklad_id" />
+          </Key>
+          <Property Name="Vklad_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Balance" Type="Int32" Nullable="false" />
+          <Property Name="DateOpen" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Prog" Relationship="Model1.ProgVklad" FromRole="Vklad" ToRole="Prog" />
+          <Property Name="ProgProg_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Model1.ClientVklad" FromRole="Vklad" ToRole="Client" />
+          <Property Name="ClientClient_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Prog">
+          <Key>
+            <PropertyRef Name="Prog_id" />
+          </Key>
+          <Property Name="Prog_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Percent" Type="Int32" Nullable="false" />
+          <Property Name="Prog_name" Type="String" Nullable="false" MaxLength="50" />
+          <NavigationProperty Name="Vklad" Relationship="Model1.ProgVklad" FromRole="Prog" ToRole="Vklad" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Client_id" />
+          </Key>
+          <Property Name="Client_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Passport" Type="Int32" Nullable="false" />
+          <Property Name="Phone" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Vklad" Relationship="Model1.ClientVklad" FromRole="Client" ToRole="Vklad" />
+        </EntityType>
+        <Association Name="ProgVklad">
+          <End Type="Model1.Prog" Role="Prog" Multiplicity="1" />
+          <End Type="Model1.Vklad" Role="Vklad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prog">
+              <PropertyRef Name="Prog_id" />
+            </Principal>
+            <Dependent Role="Vklad">
+              <PropertyRef Name="ProgProg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClientVklad">
+          <End Type="Model1.Client" Role="Client" Multiplicity="1" />
+          <End Type="Model1.Vklad" Role="Vklad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Client_id" />
+            </Principal>
+            <Dependent Role="Vklad">
+              <PropertyRef Name="ClientClient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="VkladSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Vklad)">
+        <MappingFragment StoreEntitySet="VkladSet">
+          <ScalarProperty Name="Vklad_id" ColumnName="Vklad_id" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="DateOpen" ColumnName="DateOpen" />
+          <ScalarProperty Name="ProgProg_id" ColumnName="ProgProg_id" />
+          <ScalarProperty Name="ClientClient_id" ColumnName="ClientClient_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProgSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Prog)">
+        <MappingFragment StoreEntitySet="ProgSet">
+          <ScalarProperty Name="Prog_id" ColumnName="Prog_id" />
+          <ScalarProperty Name="Percent" ColumnName="Percent" />
+          <ScalarProperty Name="Prog_name" ColumnName="Prog_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClientSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Client)">
+        <MappingFragment StoreEntitySet="ClientSet">
+          <ScalarProperty Name="Client_id" ColumnName="Client_id" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="Passport" ColumnName="Passport" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

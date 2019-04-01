@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Card_typeSet" EntityType="Model1.Store.Card_typeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClientSet" EntityType="Model1.Store.ClientSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RecordSet" EntityType="Model1.Store.RecordSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Game_typeSet" EntityType="Model1.Store.Game_typeSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="Card_typeClient" Association="Model1.Store.Card_typeClient">
+      <End Role="Card_type" EntitySet="Card_typeSet" />
+      <End Role="Client" EntitySet="ClientSet" />
+    </AssociationSet>
+    <AssociationSet Name="ClientRecord" Association="Model1.Store.ClientRecord">
+      <End Role="Client" EntitySet="ClientSet" />
+      <End Role="Record" EntitySet="RecordSet" />
+    </AssociationSet>
+    <AssociationSet Name="Game_typeRecord" Association="Model1.Store.Game_typeRecord">
+      <End Role="Game_type" EntitySet="Game_typeSet" />
+      <End Role="Record" EntitySet="RecordSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Card_typeSet">
+    <Key>
+      <PropertyRef Name="Card_type_code" />
+    </Key>
+    <Property Name="Card_type_code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Card_type_name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ClientSet">
+    <Key>
+      <PropertyRef Name="Card_number" />
+    </Key>
+    <Property Name="Card_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Passport" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Balance" Type="int" Nullable="false" />
+    <Property Name="Card_type_code" Type="int" Nullable="false" />
+    <Property Name="Card_type_Card_type_code" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RecordSet">
+    <Key>
+      <PropertyRef Name="Record_number" />
+    </Key>
+    <Property Name="Record_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Bottom_line" Type="float" Nullable="false" />
+    <Property Name="Game_code" Type="int" Nullable="false" />
+    <Property Name="Card_number" Type="int" Nullable="false" />
+    <Property Name="Client_Card_number" Type="int" Nullable="false" />
+    <Property Name="Game_type_Game_code" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Game_typeSet">
+    <Key>
+      <PropertyRef Name="Game_code" />
+    </Key>
+    <Property Name="Game_code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Game_name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="Card_typeClient">
+    <End Role="Card_type" Type="Model1.Store.Card_typeSet" Multiplicity="1" />
+    <End Role="Client" Type="Model1.Store.ClientSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Card_type">
+        <PropertyRef Name="Card_type_code" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="Card_type_Card_type_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ClientRecord">
+    <End Role="Client" Type="Model1.Store.ClientSet" Multiplicity="1" />
+    <End Role="Record" Type="Model1.Store.RecordSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Card_number" />
+      </Principal>
+      <Dependent Role="Record">
+        <PropertyRef Name="Client_Card_number" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Game_typeRecord">
+    <End Role="Game_type" Type="Model1.Store.Game_typeSet" Multiplicity="1" />
+    <End Role="Record" Type="Model1.Store.RecordSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game_type">
+        <PropertyRef Name="Game_code" />
+      </Principal>
+      <Dependent Role="Record">
+        <PropertyRef Name="Game_type_Game_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Card_typeSet" EntityType="Model1.Card_type" />
+          <EntitySet Name="ClientSet" EntityType="Model1.Client" />
+          <EntitySet Name="RecordSet" EntityType="Model1.Record" />
+          <EntitySet Name="Game_typeSet" EntityType="Model1.Game_type" />
+          <AssociationSet Name="Card_typeClient" Association="Model1.Card_typeClient">
+            <End Role="Card_type" EntitySet="Card_typeSet" />
+            <End Role="Client" EntitySet="ClientSet" />
+          </AssociationSet>
+          <AssociationSet Name="ClientRecord" Association="Model1.ClientRecord">
+            <End Role="Client" EntitySet="ClientSet" />
+            <End Role="Record" EntitySet="RecordSet" />
+          </AssociationSet>
+          <AssociationSet Name="Game_typeRecord" Association="Model1.Game_typeRecord">
+            <End Role="Game_type" EntitySet="Game_typeSet" />
+            <End Role="Record" EntitySet="RecordSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Card_type">
+          <Key>
+            <PropertyRef Name="Card_type_code" />
+          </Key>
+          <Property Name="Card_type_code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Card_type_name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Model1.Card_typeClient" FromRole="Card_type" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Card_number" />
+          </Key>
+          <Property Name="Card_number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" />
+          <Property Name="Passport" Type="String" Nullable="false" />
+          <Property Name="Balance" Type="Int32" Nullable="false" />
+          <Property Name="Card_type_code" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Card_type" Relationship="Model1.Card_typeClient" FromRole="Client" ToRole="Card_type" />
+          <NavigationProperty Name="Record" Relationship="Model1.ClientRecord" FromRole="Client" ToRole="Record" />
+        </EntityType>
+        <EntityType Name="Record">
+          <Key>
+            <PropertyRef Name="Record_number" />
+          </Key>
+          <Property Name="Record_number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="Bottom_line" Type="Double" Nullable="false" />
+          <Property Name="Game_code" Type="Int32" Nullable="false" />
+          <Property Name="Card_number" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Model1.ClientRecord" FromRole="Record" ToRole="Client" />
+          <NavigationProperty Name="Game_type" Relationship="Model1.Game_typeRecord" FromRole="Record" ToRole="Game_type" />
+        </EntityType>
+        <EntityType Name="Game_type">
+          <Key>
+            <PropertyRef Name="Game_code" />
+          </Key>
+          <Property Name="Game_code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Game_name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Record" Relationship="Model1.Game_typeRecord" FromRole="Game_type" ToRole="Record" />
+        </EntityType>
+        <Association Name="Card_typeClient">
+          <End Type="Model1.Card_type" Role="Card_type" Multiplicity="1" />
+          <End Type="Model1.Client" Role="Client" Multiplicity="*" />
+        </Association>
+        <Association Name="ClientRecord">
+          <End Type="Model1.Client" Role="Client" Multiplicity="1" />
+          <End Type="Model1.Record" Role="Record" Multiplicity="*" />
+        </Association>
+        <Association Name="Game_typeRecord">
+          <End Type="Model1.Game_type" Role="Game_type" Multiplicity="1" />
+          <End Type="Model1.Record" Role="Record" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Card_typeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Card_type)">
+        <MappingFragment StoreEntitySet="Card_typeSet">
+          <ScalarProperty Name="Card_type_code" ColumnName="Card_type_code" />
+          <ScalarProperty Name="Card_type_name" ColumnName="Card_type_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClientSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Client)">
+        <MappingFragment StoreEntitySet="ClientSet">
+          <ScalarProperty Name="Card_number" ColumnName="Card_number" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Passport" ColumnName="Passport" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="Card_type_code" ColumnName="Card_type_code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecordSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Record)">
+        <MappingFragment StoreEntitySet="RecordSet">
+          <ScalarProperty Name="Record_number" ColumnName="Record_number" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Bottom_line" ColumnName="Bottom_line" />
+          <ScalarProperty Name="Game_code" ColumnName="Game_code" />
+          <ScalarProperty Name="Card_number" ColumnName="Card_number" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Game_typeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Game_type)">
+        <MappingFragment StoreEntitySet="Game_typeSet">
+          <ScalarProperty Name="Game_code" ColumnName="Game_code" />
+          <ScalarProperty Name="Game_name" ColumnName="Game_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="Card_typeClient" TypeName="Model1.Card_typeClient" StoreEntitySet="ClientSet">
+      <EndProperty Name="Card_type">
+        <ScalarProperty Name="Card_type_code" ColumnName="Card_type_Card_type_code" />
+      </EndProperty>
+      <EndProperty Name="Client">
+        <ScalarProperty Name="Card_number" ColumnName="Card_number" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ClientRecord" TypeName="Model1.ClientRecord" StoreEntitySet="RecordSet">
+      <EndProperty Name="Client">
+        <ScalarProperty Name="Card_number" ColumnName="Client_Card_number" />
+      </EndProperty>
+      <EndProperty Name="Record">
+        <ScalarProperty Name="Record_number" ColumnName="Record_number" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="Game_typeRecord" TypeName="Model1.Game_typeRecord" StoreEntitySet="RecordSet">
+      <EndProperty Name="Game_type">
+        <ScalarProperty Name="Game_code" ColumnName="Game_type_Game_code" />
+      </EndProperty>
+      <EndProperty Name="Record">
+        <ScalarProperty Name="Record_number" ColumnName="Record_number" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
